@@ -81,7 +81,7 @@
 Laravel Pertama Saya
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Ashri Azizah Yolandita
                 </div>
 
                 <div class="links">
