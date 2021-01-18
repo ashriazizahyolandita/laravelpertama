@@ -1,6 +1,10 @@
+<!DOCTYPE html>
 
 <!doctype html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -9,29 +13,35 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
-    <title>>@yield('title')</title>
+    <title>@yield('title')</title>
+</head>
+<body>
+    @yield('content')
+</body>
   </head>
   <body>
   <div class="container">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
-  <a class="navbar-brand" href="#">Lavarel Pertama</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-      <a class="nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
-      <a class="nav-link" href="/friends">friends</a>
-    </div>
-  </div>
-</nav>
-<a href="/friends/create" class="card-link btn-primary">Tambah teman</a>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+        <a class="navbar-brand" href="#">Laravel Pertama</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+            <a class="nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="/friends">Friends</a>
+            </div>
+        </div>
+        </nav>
+        <a href="/friends/create" class="card-link btn-primary">Tambah Teman</a>
 
-  
   @yield('content')
 
 
-</div>
+
+
+  </div>
+
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
@@ -44,4 +54,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
     -->
   </body>
-</html>
+</html> 
