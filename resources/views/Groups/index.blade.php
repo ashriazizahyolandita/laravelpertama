@@ -38,5 +38,3 @@
 @endforeach
 {{$groups->links()}}
 @endsection
-  
-

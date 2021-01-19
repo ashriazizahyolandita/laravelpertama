@@ -1,12 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Groups;
+use App\Models\Friends;
 use Illuminate\Http\Request;
 
-
-class groupscontroller extends Controller
+class GroupsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +14,7 @@ class groupscontroller extends Controller
      */
     public function index()
     {
-        $groups = Groups::orderBy('id', 'desc')->paginate(3);
+        $groups = Groups::orderBy('id','desc')->paginate(3);
         return view('groups.index', compact('groups'));
     }
 
@@ -39,17 +38,15 @@ class groupscontroller extends Controller
     {
         $request->validate([
             'name' => 'required|unique:groups|max:255',
-
             'description' => 'required',
         ]);
+
         $groups = new groups;
 
         $groups->name = $request->name;
-
         $groups->description = $request->description;
-
+       
         $groups->save();
-
         return redirect('/groups');
     }
 
@@ -61,8 +58,8 @@ class groupscontroller extends Controller
      */
     public function show($id)
     {
-        $group= Group::where('id', $id)->first();
-        return view ('group.show', ['group' => $group]);
+        $group = Groups::where('id', $id)->first();
+        return view('groups.show' ,['group' => $group]);
     }
 
     /**
@@ -73,8 +70,8 @@ class groupscontroller extends Controller
      */
     public function edit($id)
     {
-        $group= Groups::where('id', $id)->first();
-        return view ('groups.edit', ['group' => $group]);
+        $group = Groups::where('id', $id)->first();
+        return view('groups.edit' , ['group' => $group]);
     }
 
     /**
@@ -88,17 +85,15 @@ class groupscontroller extends Controller
     {
         $request->validate([
             'name' => 'required|unique:groups|max:255',
-
             'description' => 'required',
         ]);
-        Groups::find($id)->update([
-            'name' => $request->name,
-
-            'description' => $request->description,
-        ]);
-
-        return redirect ('/groups');
-    }
+            Groups::find($id)->update([
+                'name' => $request->name,
+                'description' => $request->description
+            ]);
+            
+            return redirect('/groups');
+        }
 
     /**
      * Remove the specified resource from storage.
@@ -109,6 +104,32 @@ class groupscontroller extends Controller
     public function destroy($id)
     {
         Groups::find($id)->delete();
-        return redirect ('/');
+        return redirect('/groups');
     }
-} 
+    public function addmember($id)
+    {
+        $friend=Friends::Where('groups_id', '=', 0)->get();
+        $group = Groups::where('id', $id)->first();
+        return view('groups.addmember' ,['group' => $group,'friend'=> $friend]);
+    }
+    public function updateaddmember(Request $request, $id)
+    {
+        $friend = Friends::where('id', $request->friend_id)->first();  
+        Friends::find($friend->id)->update([
+                'groups_id' => $id
+               
+            ]);
+            
+            return redirect('/groups/addmember/' . $id);
+        }
+        public function deleteaddmember(Request $request, $id)
+        {
+            //dd($id);
+            Friends::find($id)->update([
+                    'groups_id' => $id
+                   
+                ]);
+                
+                return redirect('/groups');
+            }
+}
