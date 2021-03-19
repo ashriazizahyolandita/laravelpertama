@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Groups extends Model
 {
     use HasFactory;
-    protected $guarded = ['name'];
+    protected $guarded =['name'];
+    protected $fillable = ['id', 'name', 'description'];
 
     public function friends()
     {

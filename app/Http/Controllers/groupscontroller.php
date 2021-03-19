@@ -12,11 +12,12 @@ class GroupsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-     public function index()
+    public function index()
     {
-        $groups = Groups::orderby('id', 'desc') -> paginate(3);
+        $groups = Groups::orderBy('id','desc')->paginate(3);
         return view('groups.index', compact('groups'));
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -26,6 +27,7 @@ class GroupsController extends Controller
     {
         return view('groups.create');
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -38,12 +40,16 @@ class GroupsController extends Controller
             'name' => 'required|unique:groups|max:255',
             'description' => 'required',
         ]);
-        $group = new Groups;
-        $group->name = $request->name;
-        $group->description = $request->description;
-        $group->save();
+
+        $groups = new groups;
+
+        $groups->name = $request->name;
+        $groups->description = $request->description;
+       
+        $groups->save();
         return redirect('/groups');
     }
+
     /**
      * Display the specified resource.
      *
@@ -53,8 +59,9 @@ class GroupsController extends Controller
     public function show($id)
     {
         $group = Groups::where('id', $id)->first();
-        return view('groups.show', ['group' => $group]);
+        return view('groups.show' ,['group' => $group]);
     }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -64,8 +71,9 @@ class GroupsController extends Controller
     public function edit($id)
     {
         $group = Groups::where('id', $id)->first();
-        return view('groups.edit', ['group' => $group]);
+        return view('groups.edit' , ['group' => $group]);
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -75,12 +83,18 @@ class GroupsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Groups::find($id)->update([
-            'name' => $request->name,
-            'description' => $request->description
+        $request->validate([
+            'name' => 'required|unique:groups|max:255',
+            'description' => 'required',
         ]);
-        return redirect('/groups');
-    }
+            Groups::find($id)->update([
+                'name' => $request->name,
+                'description' => $request->description
+            ]);
+            
+            return redirect('/groups');
+        }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -92,32 +106,30 @@ class GroupsController extends Controller
         Groups::find($id)->delete();
         return redirect('/groups');
     }
-
     public function addmember($id)
     {
-        $friend = Friends::where('groups_id', '=', 0)->get();
+        $friend=Friends::Where('groups_id', '=', 0)->get();
         $group = Groups::where('id', $id)->first();
-        return view('groups.addmember', ['group' => $group, 'friend' => $friend]);
+        return view('groups.addmember' ,['group' => $group,'friend'=> $friend]);
     }
-
     public function updateaddmember(Request $request, $id)
     {
-        $friend = Friends::where('id', $request->friend_id)->first();
+        $friend = Friends::where('id', $request->friend_id)->first();  
         Friends::find($friend->id)->update([
-            'groups_id' => $id
-        ]);
-
-        return redirect('/groups/addmember/'. $id);
-    }
-
-    public function deleteaddmember(Request $request, $id)
-    {
-
-        Friends::find($id)->update([
-            'groups_id' => 0
-        ]);
-
-        return redirect('/groups');
-    }
-
+                'groups_id' => $id
+               
+            ]);
+            
+            return redirect('/groups/addmember/' . $id);
+        }
+        public function deleteaddmember(Request $request, $id)
+        {
+            //dd($id);
+            Friends::find($id)->update([
+                    'groups_id' => $id
+                   
+                ]);
+                
+                return redirect('/groups');
+            }
 }
